@@ -1,3 +1,6 @@
+require('dotenv').config();
+require("./models/connection");
+
 const cors = require('cors');
 var express = require('express');
 var path = require('path');
