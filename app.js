@@ -13,15 +13,16 @@ const tweetRouter = require("./routes/tweet");
 
 var app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use(cors());
 app.use("/tweet", tweetRouter);
 
 module.exports = app;
