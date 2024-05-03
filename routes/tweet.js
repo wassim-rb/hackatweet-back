@@ -7,8 +7,8 @@ const User = require("../models/users");
 router.post("/tweetUser", (req, res) => {
   //console.log(req.body.description);
   User.findOne({ token: req.body.token }).then((dataToken) => {
-    //console.log(dataToken._id.toString());
-    if (req.body.description !== "") {
+    console.log(req.body.description);
+    if (!req.body.description !== "") {
       const newTweet = new Tweet({
         user: dataToken._id.toString(),
         description: req.body.description,
