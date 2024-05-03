@@ -1,25 +1,29 @@
 var express = require("express");
 var router = express.Router();
 const Tweet = require("../models/tweets");
+
 //router post ma donnée
 router.post("/tweetUser", (req, res) => {
-  //console.log(req.body.description);
-  if (req.body.description !== "") {
-    Tweet.findOne({ description: req.body.description }).then((data) => {
-      const newTweet = new Tweet({
-        user: req.body.userId,
-        description: req.body.description,
-        date: new Date(),
-      });
+  User.findOne({ token: req.body.token }).then((dataToken) => {
+    console.log(dataToken);
+    if (dataToken.description !== "") {
+      Tweet.findOne({ description: dataToken.description }).then((dataUser) => {
+        const newTweet = new Tweet({
+          user: data.userId,
+          description: data.description,
+          date: new Date(),
+        });
 
-      newTweet.save().then(() => {
-        res.json({ result: true, tweet: newTweet });
+        newTweet.save().then(() => {
+          res.json({ result: true, tweet: newTweet });
+        });
       });
-    });
-  } else {
-    res.json({ result: false });
-  }
+    } else {
+      res.json({ result: false });
+    }
+  });
 });
+//console.log(req.body.description);
 
 //router get recupere les tweet present dans ma database
 router.get("/gettweets", (req, res) => {
