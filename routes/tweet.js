@@ -1,23 +1,23 @@
 var express = require("express");
 var router = express.Router();
 const Tweet = require("../models/tweets");
+const User = require("../models/users");
 
 //router post ma donnée
 router.post("/tweetUser", (req, res) => {
+  //console.log(req.body.description);
   User.findOne({ token: req.body.token }).then((dataToken) => {
-    console.log(dataToken);
-    if (dataToken.description !== "") {
-      Tweet.findOne({ description: dataToken.description }).then((dataUser) => {
-        const newTweet = new Tweet({
-          user: data.userId,
-          description: data.description,
-          date: new Date(),
-        });
-
-        newTweet.save().then(() => {
-          res.json({ result: true, tweet: newTweet });
-        });
+    //console.log(dataToken._id.toString());
+    if (req.body.description !== "") {
+      const newTweet = new Tweet({
+        user: dataToken._id.toString(),
+        description: req.body.description,
+        date: new Date(),
       });
+      newTweet.save().then(() => {
+        res.json({ result: true, tweet: newTweet });
+      });
+      // });
     } else {
       res.json({ result: false });
     }
