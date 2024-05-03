@@ -50,4 +50,21 @@ router.delete("/:tweetId", (req, res) => {
     }
   });
 });
+
+
+// router gethashtag
+router.get("/gethashtags", async (req, res) => {
+  
+    const hashtagCounts = await Tweet.aggregate([
+      { $match: { description: { $regex: /#/ } } },
+      { $project: { hashtags: { $split: ["$description", " "] } } },
+      { $unwind: "$hashtags" },
+      { $match: { hashtags: { $regex: /#/ } } },
+      { $group: { _id: "$hashtags", count: { $sum: 1 } } },
+      { $sort: { count: -1 } }
+    ]);
+    res.json({ success: true, data: hashtagCounts });
+});
+
+
 module.exports = router;
